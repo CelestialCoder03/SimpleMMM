@@ -1,0 +1,62 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+.uv/
+
+# Node
+node_modules/
+dist/
+build/
+.next/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+logs/
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+.ruff_cache/
+
+# Docker
+docker-compose.override.yml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data
+*.csv
+*.xlsx
+!tests/fixtures/*.csv
+uploads/
+
+# Model artifacts
+*.pkl
+*.joblib
+*.h5
+
+# screenshots
+screenshots/
+
+# Claude Code
+CLAUDE.md
+.claude/

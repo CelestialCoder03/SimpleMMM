@@ -1,0 +1,3 @@
+# python-ecdsa: Minerva attack vulnerability - no fix available (status: affected)
+# Transitive dep via python-jose; acceptable risk for JWT signing in this context
+CVE-2024-23342
