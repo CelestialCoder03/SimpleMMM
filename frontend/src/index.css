@@ -1,0 +1,455 @@
+@import "tailwindcss";
+
+@theme {
+  /* ========================================
+     Colors - Light mode (Base Palette)
+     Professional, deeper primary for analytics tools
+     ======================================== */
+  --color-background: hsl(0 0% 100%);
+  --color-foreground: hsl(220 15% 16%);  /* Darker text for better readability */
+  --color-card: hsl(0 0% 100%);
+  --color-card-foreground: hsl(220 15% 16%);
+  --color-popover: hsl(0 0% 100%);
+  --color-popover-foreground: hsl(220 15% 16%);
+  --color-primary: hsl(215 65% 45%);  /* Deeper, more professional blue */
+  --color-primary-foreground: hsl(210 40% 98%);
+  --color-primary-hover: hsl(215 65% 40%);
+  --color-primary-soft: hsl(215 65% 45% / 0.08);
+  --color-secondary: hsl(210 40% 96.1%);
+  --color-secondary-foreground: hsl(222.2 47.4% 11.2%);
+  --color-muted: hsl(210 40% 96.1%);
+  --color-muted-foreground: hsl(220 10% 42%);  /* More contrast for secondary text */
+  --color-accent: hsl(210 40% 96.1%);
+  --color-accent-foreground: hsl(222.2 47.4% 11.2%);
+  --color-destructive: hsl(0 84.2% 60.2%);
+  --color-destructive-foreground: hsl(210 40% 98%);
+  --color-border: hsl(214.3 31.8% 91.4%);
+  --color-input: hsl(214.3 31.8% 91.4%);
+  --color-ring: hsl(215 65% 45%);
+
+  /* Success/Warning/Info colors */
+  --color-success: hsl(142 76% 36%);
+  --color-success-foreground: hsl(0 0% 100%);
+  --color-warning: hsl(38 92% 50%);
+  --color-warning-foreground: hsl(0 0% 0%);
+  --color-info: hsl(199 89% 48%);
+  --color-info-foreground: hsl(0 0% 100%);
+
+  /* Data-specific semantic colors for metrics */
+  --color-positive: hsl(145 55% 38%);
+  --color-negative: hsl(0 60% 48%);
+
+  /* ========================================
+     Chart Colors (Accessible, Harmonious)
+     ======================================== */
+  --color-chart-1: hsl(217 91% 60%);
+  --color-chart-2: hsl(142 71% 45%);
+  --color-chart-3: hsl(270 67% 47%);
+  --color-chart-4: hsl(31 97% 54%);
+  --color-chart-5: hsl(199 89% 48%);
+  --color-chart-6: hsl(354 70% 54%);
+  --color-chart-7: hsl(43 96% 56%);
+  --color-chart-8: hsl(173 80% 40%);
+
+  /* ========================================
+     Border Radius (Professional, More Angular)
+     ======================================== */
+  --radius-sm: 0.25rem;   /* Was 0.375rem - more angular */
+  --radius: 0.375rem;     /* Was 0.625rem */
+  --radius-md: 0.5rem;    /* Was 0.875rem */
+  --radius-lg: 0.625rem;  /* Was 1rem */
+  --radius-xl: 0.75rem;   /* Was 1.25rem */
+  --radius-2xl: 1rem;     /* Was 1.5rem */
+  --radius-full: 9999px;
+
+  /* ========================================
+     Glassmorphism Variables (Reduced for Performance)
+     ======================================== */
+  --glass-bg: rgba(255, 255, 255, 0.5);         /* Was 0.7 - less opaque */
+  --glass-bg-heavy: rgba(255, 255, 255, 0.75);  /* Was 0.85 */
+  --glass-bg-light: rgba(255, 255, 255, 0.35);  /* Was 0.5 */
+  --glass-border: rgba(255, 255, 255, 0.15);    /* Was 0.2 */
+  --glass-border-strong: rgba(255, 255, 255, 0.25); /* Was 0.3 */
+  --glass-blur: 8px;     /* Was 16px - reduced for performance */
+  --glass-blur-sm: 4px;  /* Was 8px */
+  --glass-blur-lg: 12px; /* Was 24px */
+
+  /* ========================================
+     Gradient Accents (Stripe-inspired)
+     ======================================== */
+  --gradient-primary: linear-gradient(135deg, hsl(221 83% 53%) 0%, hsl(262 83% 58%) 100%);
+  --gradient-secondary: linear-gradient(135deg, hsl(199 89% 48%) 0%, hsl(173 58% 39%) 100%);
+  --gradient-success: linear-gradient(135deg, hsl(142 76% 36%) 0%, hsl(173 58% 39%) 100%);
+  --gradient-accent: linear-gradient(135deg, hsl(270 67% 47%) 0%, hsl(280 70% 55%) 100%);
+  --gradient-warm: linear-gradient(135deg, hsl(31 97% 54%) 0%, hsl(354 70% 54%) 100%);
+  --gradient-subtle: linear-gradient(135deg, hsl(210 40% 98%) 0%, hsl(214.3 31.8% 96%) 100%);
+
+  /* ========================================
+     Shadow System (Enhanced)
+     ======================================== */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+
+  /* Glassmorphism shadows */
+  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+  --shadow-glass-sm: 0 4px 16px 0 rgba(31, 38, 135, 0.05);
+  --shadow-glass-lg: 0 16px 48px 0 rgba(31, 38, 135, 0.1);
+  --shadow-glass-inset: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+
+  /* Glow effects (Reduced intensity for professional look) */
+  --shadow-glow: none;  /* Was 0 0 20px rgb(59 130 246 / 0.3) - removed */
+  --shadow-glow-primary: 0 0 20px rgba(59, 130, 246, 0.15);  /* Reduced from 40px/0.3 */
+  --shadow-glow-accent: 0 0 20px rgba(139, 92, 246, 0.15);   /* Reduced from 40px/0.3 */
+  --shadow-glow-success: 0 0 20px rgba(34, 197, 94, 0.15);   /* Reduced from 40px/0.3 */
+
+  /* ========================================
+     Animation Timing (Faster for professional feel)
+     ======================================== */
+  --transition-fast: 100ms;   /* Was 150ms */
+  --transition-normal: 150ms; /* Was 250ms */
+  --transition-slow: 200ms;   /* Was 350ms */
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* ========================================
+     Spacing Scale (8px base rhythm)
+     ======================================== */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+}
+
+.dark {
+  /* Base colors (optimized for extended work sessions) */
+  --color-background: hsl(222.2 84% 4.9%);
+  --color-foreground: hsl(210 40% 98%);
+  --color-card: hsl(222.2 84% 4.9%);
+  --color-card-foreground: hsl(210 40% 98%);
+  --color-popover: hsl(222.2 84% 4.9%);
+  --color-popover-foreground: hsl(210 40% 98%);
+  --color-primary: hsl(215 70% 55%);  /* Matched to light mode primary */
+  --color-primary-foreground: hsl(222.2 47.4% 11.2%);
+  --color-primary-hover: hsl(215 70% 60%);
+  --color-primary-soft: hsl(215 70% 55% / 0.12);
+  --color-secondary: hsl(217.2 32.6% 17.5%);
+  --color-secondary-foreground: hsl(210 40% 98%);
+  --color-muted: hsl(217.2 32.6% 17.5%);
+  --color-muted-foreground: hsl(215 20.2% 65.1%);
+  --color-accent: hsl(217.2 32.6% 17.5%);
+  --color-accent-foreground: hsl(210 40% 98%);
+  --color-destructive: hsl(0 62.8% 30.6%);
+  --color-destructive-foreground: hsl(210 40% 98%);
+  --color-border: hsl(217.2 32.6% 17.5%);
+  --color-input: hsl(217.2 32.6% 17.5%);
+  --color-ring: hsl(215 65% 50%);
+
+  /* Dark mode additional colors */
+  --color-success: hsl(142 71% 45%);
+  --color-warning: hsl(38 92% 50%);
+  --color-info: hsl(199 89% 48%);
+
+  /* Data-specific semantic colors for metrics */
+  --color-positive: hsl(145 60% 45%);
+  --color-negative: hsl(0 65% 55%);
+
+  /* Dark mode glassmorphism (reduced intensity) */
+  --glass-bg: rgba(17, 24, 39, 0.7);      /* Was 0.8 */
+  --glass-bg-heavy: rgba(17, 24, 39, 0.85); /* Was 0.9 */
+  --glass-bg-light: rgba(17, 24, 39, 0.5);  /* Was 0.6 */
+  --glass-border: rgba(255, 255, 255, 0.06);  /* Was 0.08 */
+  --glass-border-strong: rgba(255, 255, 255, 0.1); /* Was 0.12 */
+
+  /* Dark mode shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.3);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.5);
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  --shadow-glass-sm: 0 4px 16px 0 rgba(0, 0, 0, 0.2);
+  --shadow-glass-lg: 0 16px 48px 0 rgba(0, 0, 0, 0.4);
+  --shadow-glow: none;  /* Removed for professional look */
+  --shadow-glow-primary: 0 0 20px rgba(96, 165, 250, 0.2);  /* Reduced */
+  --shadow-glow-accent: 0 0 20px rgba(167, 139, 250, 0.2);  /* Reduced */
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ========================================
+   Glassmorphism Utility Classes
+   ======================================== */
+
+/* Base glass effect */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+}
+
+.glass-sm {
+  background: var(--glass-bg-light);
+  backdrop-filter: blur(var(--glass-blur-sm));
+  -webkit-backdrop-filter: blur(var(--glass-blur-sm));
+  border: 1px solid var(--glass-border);
+}
+
+.glass-lg {
+  background: var(--glass-bg-heavy);
+  backdrop-filter: blur(var(--glass-blur-lg));
+  -webkit-backdrop-filter: blur(var(--glass-blur-lg));
+  border: 1px solid var(--glass-border-strong);
+}
+
+/* Glass card with shadow */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-glass);
+}
+
+.glass-card:hover {
+  box-shadow: var(--shadow-glass-lg);
+}
+
+/* ========================================
+   Gradient Text Utilities
+   ======================================== */
+
+.text-gradient-primary {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-accent {
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-secondary {
+  background: var(--gradient-secondary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ========================================
+   Glow Effects
+   ======================================== */
+
+.glow-primary {
+  box-shadow: var(--shadow-glow-primary);
+}
+
+.glow-accent {
+  box-shadow: var(--shadow-glow-accent);
+}
+
+.glow-success {
+  box-shadow: var(--shadow-glow-success);
+}
+
+/* ========================================
+   Gradient Backgrounds
+   ======================================== */
+
+.bg-gradient-primary {
+  background: var(--gradient-primary);
+}
+
+.bg-gradient-secondary {
+  background: var(--gradient-secondary);
+}
+
+.bg-gradient-accent {
+  background: var(--gradient-accent);
+}
+
+.bg-gradient-subtle {
+  background: var(--gradient-subtle);
+}
+
+/* App background gradient */
+.bg-app-gradient {
+  background: linear-gradient(135deg,
+    hsl(210 40% 98%) 0%,
+    hsl(0 0% 100%) 50%,
+    hsl(221.2 83.2% 53.3% / 0.03) 100%
+  );
+}
+
+.dark .bg-app-gradient {
+  background: linear-gradient(135deg,
+    hsl(222.2 84% 4.9%) 0%,
+    hsl(222.2 47.4% 8%) 50%,
+    hsl(262 83% 58% / 0.05) 100%
+  );
+}
+
+/* ========================================
+   Enhanced Scrollbar
+   ======================================== */
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: var(--color-muted-foreground);
+  border-radius: var(--radius-full);
+  opacity: 0.5;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: var(--color-foreground);
+  opacity: 0.7;
+}
+
+/* ========================================
+   Animation Utilities
+   ======================================== */
+
+.animate-in-fast {
+  animation: fadeIn var(--transition-fast) var(--ease-smooth);
+}
+
+.animate-in {
+  animation: fadeIn var(--transition-normal) var(--ease-smooth);
+}
+
+.animate-in-slow {
+  animation: fadeIn var(--transition-slow) var(--ease-out-expo);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ========================================
+   Focus & Interaction States
+   ======================================== */
+
+.focus-ring {
+  outline: none;
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.focus-glow:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--color-primary-soft), var(--shadow-glow-primary);
+}
+
+/* ========================================
+   Card Hover Effects (Reduced motion for professional feel)
+   ======================================== */
+
+.hover-lift {
+  transition: box-shadow var(--transition-fast) var(--ease-smooth);
+}
+
+.hover-lift:hover {
+  box-shadow: var(--shadow-md);
+  /* Removed transform: translateY(-2px) for subtler effect */
+}
+
+.hover-scale {
+  transition: transform var(--transition-fast) var(--ease-smooth);
+}
+
+.hover-scale:hover {
+  transform: scale(1.01);  /* Was 1.02 - more subtle */
+}
+
+/* ========================================
+   Typography Enhancements
+   ======================================== */
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.tracking-tight {
+  letter-spacing: -0.025em;
+}
+
+.leading-tight {
+  line-height: 1.25;
+}
+
+.leading-relaxed {
+  line-height: 1.75;
+}

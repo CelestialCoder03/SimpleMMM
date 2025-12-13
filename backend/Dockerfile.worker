@@ -1,0 +1,51 @@
+# Celery Worker Dockerfile
+# For restricted networks, pass --build-arg PIP_MIRROR=... --build-arg APT_MIRROR=...
+FROM python:3.12-slim-bookworm
+
+ARG PIP_MIRROR=""
+ARG APT_MIRROR=""
+
+WORKDIR /app
+
+# Install system dependencies (optionally use mirrors)
+RUN set -eux; \
+    if [ -n "$APT_MIRROR" ]; then \
+      if [ -f /etc/apt/sources.list.d/debian.sources ]; then \
+        sed -i \
+          -e "s|http://deb.debian.org/debian|${APT_MIRROR}/debian|g" \
+          -e "s|http://deb.debian.org/debian-security|${APT_MIRROR}/debian-security|g" \
+          /etc/apt/sources.list.d/debian.sources; \
+      fi; \
+    fi; \
+    apt-get -o Acquire::Retries=5 update; \
+    apt-get -o Acquire::Retries=5 install -y --no-install-recommends \
+      ca-certificates \
+      build-essential \
+      curl; \
+    rm -rf /var/lib/apt/lists/*
+
+# Install uv
+RUN if [ -n "$PIP_MIRROR" ]; then \
+      pip install --no-cache-dir -i "$PIP_MIRROR" --trusted-host "$(echo $PIP_MIRROR | sed 's|https\?://||;s|/.*||')" uv; \
+    else \
+      pip install --no-cache-dir uv; \
+    fi
+
+# Copy dependency files
+COPY pyproject.toml uv.lock README.md ./
+COPY app ./app
+
+# Install dependencies
+RUN if [ -n "$PIP_MIRROR" ]; then \
+      UV_DEFAULT_INDEX="$PIP_MIRROR" UV_INDEX_URL="$PIP_MIRROR" uv sync --frozen --no-dev; \
+    else \
+      uv sync --frozen --no-dev; \
+    fi
+
+ENV PATH="/app/.venv/bin:$PATH"
+
+# Copy application code
+COPY . .
+
+# Run Celery worker
+CMD ["celery", "-A", "app.workers.celery_app", "worker", "--loglevel=info", "-Q", "default,model_training,data_processing"]

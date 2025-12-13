@@ -1,0 +1,55 @@
+# Shared base image for API and Worker
+# Build with optional mirror args for restricted networks:
+#   docker build --build-arg PIP_MIRROR=https://mirrors.aliyun.com/pypi/simple/ ...
+FROM python:3.12-slim-bookworm AS base
+
+ARG PIP_MIRROR=""
+ARG APT_MIRROR=""
+
+WORKDIR /app
+
+# Optionally configure APT mirror
+RUN set -eux; \
+    if [ -n "$APT_MIRROR" ]; then \
+      if [ -f /etc/apt/sources.list.d/debian.sources ]; then \
+        sed -i \
+          -e "s|http://deb.debian.org/debian|${APT_MIRROR}/debian|g" \
+          -e "s|http://deb.debian.org/debian-security|${APT_MIRROR}/debian-security|g" \
+          /etc/apt/sources.list.d/debian.sources; \
+      fi; \
+      if [ -f /etc/apt/sources.list ]; then \
+        sed -i \
+          -e "s|http://deb.debian.org/debian|${APT_MIRROR}/debian|g" \
+          -e "s|http://deb.debian.org/debian-security|${APT_MIRROR}/debian-security|g" \
+          -e "s|http://security.debian.org|${APT_MIRROR}/debian-security|g" \
+          /etc/apt/sources.list; \
+      fi; \
+    fi; \
+    apt-get -o Acquire::Retries=5 update; \
+    apt-get -o Acquire::Retries=5 install -y --no-install-recommends \
+      ca-certificates \
+      build-essential \
+      curl; \
+    rm -rf /var/lib/apt/lists/*
+
+# Install uv (optionally via mirror)
+RUN if [ -n "$PIP_MIRROR" ]; then \
+      pip install --no-cache-dir -i "$PIP_MIRROR" --trusted-host "$(echo $PIP_MIRROR | sed 's|https\?://||;s|/.*||')" uv; \
+    else \
+      pip install --no-cache-dir uv; \
+    fi
+
+# Copy dependency files and install
+COPY pyproject.toml uv.lock README.md ./
+COPY app ./app
+
+RUN if [ -n "$PIP_MIRROR" ]; then \
+      UV_DEFAULT_INDEX="$PIP_MIRROR" UV_INDEX_URL="$PIP_MIRROR" uv sync --frozen --no-dev; \
+    else \
+      uv sync --frozen --no-dev; \
+    fi
+
+ENV PATH="/app/.venv/bin:$PATH"
+
+# Copy full application code
+COPY . .

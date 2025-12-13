@@ -1,0 +1,42 @@
+# Production docker-compose override
+# Usage: docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+services:
+  db:
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports: !override []
+
+  redis:
+    ports: !override []
+
+  api:
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      REDIS_URL: ${REDIS_URL}
+      CELERY_BROKER_URL: ${CELERY_BROKER_URL}
+      CELERY_RESULT_BACKEND: ${CELERY_RESULT_BACKEND}
+      SECRET_KEY: ${SECRET_KEY}
+      SENTRY_DSN: ${SENTRY_DSN}
+      SENTRY_ENVIRONMENT: production
+      DEBUG: "false"
+    ports: !override []
+    volumes: !override []
+
+  worker:
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      REDIS_URL: ${REDIS_URL}
+      CELERY_BROKER_URL: ${CELERY_BROKER_URL}
+      CELERY_RESULT_BACKEND: ${CELERY_RESULT_BACKEND}
+      SECRET_KEY: ${SECRET_KEY}
+      SENTRY_DSN: ${SENTRY_DSN}
+      SENTRY_ENVIRONMENT: production
+    volumes: !override []
+
+  nginx:
+    ports:
+      - "80:80"
+      - "443:443"
