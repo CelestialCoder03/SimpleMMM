@@ -3,7 +3,7 @@
 # For restricted networks, build the base first with mirror args:
 #   docker build -f Dockerfile.base --build-arg PIP_MIRROR=... --build-arg APT_MIRROR=... -t mmm-base .
 #   Then set the FROM below to mmm-base.
-FROM python:3.12-slim-bookworm AS base
+FROM python:3.14-slim-bookworm AS base
 
 ARG PIP_MIRROR=""
 ARG APT_MIRROR=""
